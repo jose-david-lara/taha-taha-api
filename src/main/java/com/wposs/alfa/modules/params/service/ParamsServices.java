@@ -16,6 +16,9 @@ import com.wposs.core.service.BaseSpringService;
 @Component
 public class ParamsServices extends BaseSpringService<ParamsRepository>{
 	
+	private static String SUCCESS_MSG = "SUCCESS_MSG";
+	private static String FAIL_MSG = "FAIL_MSG";
+	
 	public Map<String, Object> getParameters(Map<String, Object> request) throws Exception {
 		return beginReadTransaction(new Transaction<Map<String, Object>>() {
 			public Map<String, Object> doTransaction() throws Exception{
@@ -29,16 +32,22 @@ public class ParamsServices extends BaseSpringService<ParamsRepository>{
 				
 				
 				for(Categories categorie : categories) {
+					categorie.setBusiness(new ArrayList<Business>());
 					List<Business> businessLocal = new ArrayList<>();
 					for(Business bussn : business) {
 						if(bussn.getIdCategorie().equals(categorie.getIdCategorie())) {
 							businessLocal.add(bussn); 							
 						}
 					}
-					categorie.setBusiness(business);
+					categorie.setBusiness(businessLocal);
 					categoriesList.add(categorie);
 				}
 				response.put("parameters", categoriesList);
+				if(categories.isEmpty()) {
+					response.put("message", FAIL_MSG);
+				}else {
+					response.put("message", SUCCESS_MSG);
+				}
 				return response;
 			}
 			
@@ -47,3 +56,4 @@ public class ParamsServices extends BaseSpringService<ParamsRepository>{
 	}
 
 }
+

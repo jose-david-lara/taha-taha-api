@@ -25,6 +25,7 @@ public class ParamsController extends BaseSpringController<ParamsServices>{
 	@Input(name="user_app",			required="true", 			type="String",				values="")
 	@Input(name="user",			    required="true", 			type="String",				values="")
 	@Output(name="parameters",  	required="true", 			type="String",				values="")
+	@Output(name="message",     	required="true", 			type="String",				values="")
 	public ResponseEntity<BaseResponse<Map<String, Object>>> getParameters(@RequestBody Map<String, Object> request, BindingResult bindigResult ) throws Exception {
 		return processController( new ProcessController<BaseResponse<Map<String, Object>>>( request, bindigResult ) {
 			public ResponseEntity<BaseResponse<Map<String, Object>>> onProcess( BaseResponse<Map<String, Object>> response ) throws Exception {
