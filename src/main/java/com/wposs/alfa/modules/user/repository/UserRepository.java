@@ -22,7 +22,7 @@ public class UserRepository extends BaseRepositoryDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public  Map<String, Object> getUser(Transaction <?> t, Map<String, Object> request) throws Exception  {
+	public  Map<String, Object> getAuthentications(Transaction <?> t, Map<String, Object> request) throws Exception  {
 		Map<String, Object> responseDB = new HashMap<>();
 		List<Device> devices = new ArrayList<>();
 		String sql = "select serial, modelo from equipos where estado = ?";

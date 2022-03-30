@@ -32,7 +32,7 @@ public class UserController extends BaseSpringController<UserServices>{
 	public ResponseEntity<BaseResponse<Map<String, Object>>> searchUserByEmail(@RequestBody Map<String, Object> request, BindingResult bindigResult ) throws Exception {
 		return processController( new ProcessController<BaseResponse<Map<String, Object>>>( request, bindigResult ) {
 			public ResponseEntity<BaseResponse<Map<String, Object>>> onProcess( BaseResponse<Map<String, Object>> response ) throws Exception {
-				response.setModel( getService().getUser(request) );
+				response.setModel( getService().getAuthentications(request) );
 				return new ResponseEntity<>( response, HttpStatus.OK );
 			}
 		} ) ;
