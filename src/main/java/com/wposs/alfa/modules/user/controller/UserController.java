@@ -26,6 +26,8 @@ public class UserController extends BaseSpringController<UserServices>{
 	@Input(name="user",			    required="true", 			type="String",				values="")
 	@Input(name="password",			required="true", 			type="String",				values="")
 	@Input(name="device",			required="true", 			type="String",				values="")
+	@Input(name="version",			required="true", 			type="String",				values="")
+	@Input(name="ip",    			required="true", 			type="String",				values="")	
 	@Output(name="username",		required="true", 			type="String",				values="")
 	@Output(name="device",   		required="true", 			type="String",				values="")
 	@Output(name="message", 		required="true", 			type="String",				values="")
