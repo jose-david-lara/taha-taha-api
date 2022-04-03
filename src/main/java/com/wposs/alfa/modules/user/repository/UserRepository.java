@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,12 +29,7 @@ public class UserRepository extends BaseRepositoryDAO {
     Map<String, Object> response = new HashMap<>();
 
 	public  Map<String, Object> getAuthentications(Transaction <?> t, Map<String, Object> request) throws Exception  {
-	   /* List<SqlParameter> parameters = Arrays.asList(new SqlParameter(Types.NVARCHAR));
-	    
-	    parameters.add(new SqlOutParameter("id", Types.INTEGER));
-	    parameters.add(new SqlParameter("name", Types.VARCHAR));
-	    parameters.add(new SqlParameter("date", Types.DATE));*/
-	    
+
 	    List<SqlParameter> paramList = new ArrayList<SqlParameter>();
 	    paramList.add(new SqlParameter(Types.VARCHAR));
 	    paramList.add(new SqlParameter(Types.VARCHAR));
