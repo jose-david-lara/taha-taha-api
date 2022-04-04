@@ -12,10 +12,10 @@ import com.wposs.core.service.BaseSpringService;
 @Component
 public class UserServices extends BaseSpringService<UserRepository>{
 
-	public Map<String, Object> getUser(Map<String, Object> request) throws Exception {
+	public Map<String, Object> getAuthentications(Map<String, Object> request) throws Exception {
 		return beginReadTransaction( new Transaction<Map<String, Object>> () {
 			public Map<String, Object> doTransaction() throws Exception{
-				return getRepository().getUser( this, request );	
+				return getRepository().getAuthentications( this, request );	
 			}
 		});
 	}

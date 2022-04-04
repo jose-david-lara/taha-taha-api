@@ -24,6 +24,7 @@ public class Application extends BaseSpringApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run( Application.class, args);
+
 		
 		/*if(args.length == 0) {
 			BaseSpringApplication.start(Application.class, args);
