@@ -21,7 +21,7 @@ import com.wposs.core.spring.Output;
 @RequestMapping(path = "/params")
 public class ParamsController extends BaseSpringController<ParamsServices>{
 
-	@PostMapping("/getParameters")
+	@PostMapping("/getCategories")
 	@Input(name="user_app",			required="true", 			type="String",				values="")
 	@Input(name="user",			    required="true", 			type="String",				values="")
 	@Output(name="parameters",  	required="true", 			type="String",				values="")
@@ -29,7 +29,7 @@ public class ParamsController extends BaseSpringController<ParamsServices>{
 	public ResponseEntity<BaseResponse<Map<String, Object>>> getParameters(@RequestBody Map<String, Object> request, BindingResult bindigResult ) throws Exception {
 		return processController( new ProcessController<BaseResponse<Map<String, Object>>>( request, bindigResult ) {
 			public ResponseEntity<BaseResponse<Map<String, Object>>> onProcess( BaseResponse<Map<String, Object>> response ) throws Exception {
-				response.setModel( getService().getParameters(request) );
+				response.setModel( getService().getCategories(request) );
 				return new ResponseEntity<>( response, HttpStatus.OK );
 			}
 		} ) ;
