@@ -26,7 +26,6 @@ public class UserRepository extends BaseRepositoryDAO {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-    Map<String, Object> response = new HashMap<>();
 
 	public  Map<String, Object> getAuthentications(Transaction <?> t, Map<String, Object> request) throws Exception  {
 

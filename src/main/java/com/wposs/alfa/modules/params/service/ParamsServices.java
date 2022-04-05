@@ -19,7 +19,7 @@ public class ParamsServices extends BaseSpringService<ParamsRepository>{
 	private static String SUCCESS_MSG = "SUCCESS_MSG";
 	private static String FAIL_MSG = "FAIL_MSG";
 	
-	public Map<String, Object> getParameters(Map<String, Object> request) throws Exception {
+	public Map<String, Object> getCategories(Map<String, Object> request) throws Exception {
 		return beginReadTransaction(new Transaction<Map<String, Object>>() {
 			public Map<String, Object> doTransaction() throws Exception{
 				
@@ -45,8 +45,6 @@ public class ParamsServices extends BaseSpringService<ParamsRepository>{
 				response.put("parameters", categoriesList);
 				if(categories.isEmpty()) {
 					response.put("message", FAIL_MSG);
-				}else {
-					response.put("message", SUCCESS_MSG);
 				}
 				return response;
 			}

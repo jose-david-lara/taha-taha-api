@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.stereotype.Component;
 
@@ -29,17 +30,22 @@ public class ParamsRepository extends BaseRepositoryDAO{
 	
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    
+       
 
 	public List<Categories> getCategories(Transaction <?> t, Map<String, Object> request) throws Exception  {
 
 		List<Categories> categories = new ArrayList<>();
 		String sql = "SELECT  "
-				+ "ID_CATEGORIE_BUSINESS, NAME, DESCRIPTION, URL_IMG "
-				+ "FROM DANKO.DANKO_CATEGORIES_BUSINESS "
-				+ "WHERE DANKO_STATE = ? ";
+				+ "DCBUSINESS.ID_CATEGORIE_BUSINESS, DCBUSINESS.NAME, DCBUSINESS.DESCRIPTION, DCBUSINESS.URL_IMG "
+				+ "FROM DANKO.DANKO_CATEGORIES_BUSINESS DCBUSINESS, "
+				+ "DANKO.DANKO_USER DUSER "
+				+ "WHERE DCBUSINESS.DANKO_STATE = ? "
+				+ "AND DUSER.EMAIL = ? ";
 
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql,
-				1);
+				1,
+				request.get("user").toString());
 
 		if(rows != null) {
 			for (Map<String, Object> row : rows) {
@@ -50,8 +56,7 @@ public class ParamsRepository extends BaseRepositoryDAO{
 				categorie.setImg((String) row.get("URL_IMG"));
 				categories.add(categorie);
 			}
-		}
-		
+		}		
 		return categories;
 	}
 		
@@ -81,22 +86,6 @@ public class ParamsRepository extends BaseRepositoryDAO{
 		return business;
 	}
 	
-	public void exampleGetPackages () {
-		
-	    List<SqlParameter> parameters = Arrays.asList(new SqlParameter(Types.NVARCHAR));
-	    
-	     jdbcTemplate.call(new CallableStatementCreator() {
-	      @Override
-	      public CallableStatement createCallableStatement(Connection con) throws SQLException {
-	        CallableStatement cs = con.prepareCall("{call DANKO.PKG_GENERALES.PROCD_CATEGORIES(?,?)}");
-	        cs.setString(1, "1");
-	        cs.registerOutParameter(2, Types.VARCHAR);
-	        cs.execute();
-	        
-	        System.out.println("resultado consulta::"+cs.getString(2));
-	        return cs;
-	      }
-	    }, parameters);
-	}
+
 
 }
