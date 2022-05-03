@@ -10,11 +10,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.wposs.alfa.modules.device.model.Device;
-import com.wposs.core.repository.BaseRepositoryDAO;
-import com.wposs.core.repository.Transaction;
 
 @Component
-public class DeviceRepository extends BaseRepositoryDAO{
+public class DeviceRepository {
 
 
 	@Autowired
@@ -25,7 +23,7 @@ public class DeviceRepository extends BaseRepositoryDAO{
 	 * Ejemplo para TODO!!!
 	 * 
 	 */
-	public  Map<String, Object> getDevice(Transaction <?> t, Map<String, Object> request) throws Exception  {
+	public  Map<String, Object> getDevice( Map<String, Object> request) throws Exception  {
 
 		Map<String, Object> responseDB = new HashMap<>();
 		List<Device> devices = new ArrayList<>();

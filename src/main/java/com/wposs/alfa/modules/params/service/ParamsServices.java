@@ -1,6 +1,7 @@
 package com.wposs.alfa.modules.params.service;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,25 +11,21 @@ import org.springframework.stereotype.Component;
 import com.wposs.alfa.modules.params.model.Business;
 import com.wposs.alfa.modules.params.model.Categories;
 import com.wposs.alfa.modules.params.repository.ParamsRepository;
-import com.wposs.core.repository.Transaction;
-import com.wposs.core.service.BaseSpringService;
 
 @Component
-public class ParamsServices extends BaseSpringService<ParamsRepository>{
+public class ParamsServices {
 	
 	private static String SUCCESS_MSG = "SUCCESS_MSG";
 	private static String FAIL_MSG = "FAIL_MSG";
 	
 	public Map<String, Object> getCategories(Map<String, Object> request) throws Exception {
-		return beginReadTransaction(new Transaction<Map<String, Object>>() {
-			public Map<String, Object> doTransaction() throws Exception{
-				
+
 				Map<String, Object> response = new HashMap<>();
 				List<Categories> categoriesList = new ArrayList<>();
 				
-				List<Categories> categories = getRepository().getCategories(this, request);
+				List<Categories> categories = null;// getRepository().getCategories(this, request);
 				
-				List<Business> business = getRepository().getBusiness(this, request);	
+				List<Business> business = null;// getRepository().getBusiness(this, request);	
 				
 				
 				for(Categories categorie : categories) {
@@ -47,11 +44,14 @@ public class ParamsServices extends BaseSpringService<ParamsRepository>{
 					response.put("message", FAIL_MSG);
 				}
 				return response;
-			}
 			
-		});
 				
 	}
+	
+	public Map<String, Object> getLocationsDefault(Map<String, Object> request) throws Exception {
+		return null;
+				
+	}	
 
 }
 

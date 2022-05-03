@@ -1,6 +1,7 @@
 package com.wposs.alfa.modules.params.repository;
 
 import java.math.BigDecimal;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,11 +21,9 @@ import org.springframework.stereotype.Component;
 
 import com.wposs.alfa.modules.params.model.Business;
 import com.wposs.alfa.modules.params.model.Categories;
-import com.wposs.core.repository.BaseRepositoryDAO;
-import com.wposs.core.repository.Transaction;
 
 @Component
-public class ParamsRepository extends BaseRepositoryDAO{
+public class ParamsRepository {
 
 
 	
@@ -33,7 +32,7 @@ public class ParamsRepository extends BaseRepositoryDAO{
     
        
 
-	public List<Categories> getCategories(Transaction <?> t, Map<String, Object> request) throws Exception  {
+	public List<Categories> getCategories( Map<String, Object> request) throws Exception  {
 
 		List<Categories> categories = new ArrayList<>();
 		String sql = "SELECT  "
@@ -61,7 +60,7 @@ public class ParamsRepository extends BaseRepositoryDAO{
 	}
 		
 
-	public List<Business> getBusiness(Transaction <?> t, Map<String, Object> request) throws Exception  {
+	public List<Business> getBusiness( Map<String, Object> request) throws Exception  {
 		
 		List<Business> business = new ArrayList<>();
 		String sql = "SELECT  "

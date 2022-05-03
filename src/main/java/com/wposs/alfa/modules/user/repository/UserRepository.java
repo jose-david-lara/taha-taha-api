@@ -1,6 +1,7 @@
 package com.wposs.alfa.modules.user.repository;
 
 import java.sql.CallableStatement;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -18,16 +19,14 @@ import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.stereotype.Component;
 
-import com.wposs.core.repository.BaseRepositoryDAO;
-import com.wposs.core.repository.Transaction;
 
 @Component
-public class UserRepository extends BaseRepositoryDAO {
+public class UserRepository {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public  Map<String, Object> getAuthentications(Transaction <?> t, Map<String, Object> request) throws Exception  {
+	public  Map<String, Object> getAuthentications( Map<String, Object> request) throws Exception  {
 
 	    List<SqlParameter> paramList = new ArrayList<SqlParameter>();
 	    paramList.add(new SqlParameter(Types.VARCHAR));
