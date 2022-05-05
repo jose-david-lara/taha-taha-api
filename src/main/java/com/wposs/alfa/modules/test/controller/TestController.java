@@ -13,23 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wposs.alfa.modules.test.service.TestServices;
 import com.wposs.alfa_framework.spring.Input;
 import com.wposs.alfa_framework.spring.Output;
+import com.wposs.alfa_framework.spring.ResponseModel;
 
 
 @RestController
 @RequestMapping(path = "/test")
-public class TestController {
+public class TestController extends TestServices{
 	
 	@PostMapping("/getTest")
 	@Input(name="test",	            required="true", 			type="String",				values="")
 	@Output(name="json",			required="true", 			type="String",				values="")
-	public String getTEST(@RequestBody Map<String, Object> request, BindingResult bindigResult ) throws Exception {
-		
-	
-		
-	    if (bindigResult.hasErrors()) {			
-	        return  "error";
-	    }
-		return "";
+	public ResponseEntity<ResponseModel> getTEST(@RequestBody Map<String, Object> request, BindingResult bindigResult ) throws Exception {
+
+	  
+		return new ResponseEntity<ResponseModel>(getTEST(request), HttpStatus.OK);
 
 	}
 
