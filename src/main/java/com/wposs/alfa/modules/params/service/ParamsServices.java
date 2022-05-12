@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.wposs.alfa.modules.params.model.Business;
 import com.wposs.alfa.modules.params.model.Categories;
 import com.wposs.alfa.modules.params.repository.ParamsRepository;
+import com.wposs.alfa_framework.spring.ResponseModel;
 
 @Component
 public class ParamsServices {
@@ -18,7 +19,7 @@ public class ParamsServices {
 	private static String SUCCESS_MSG = "SUCCESS_MSG";
 	private static String FAIL_MSG = "FAIL_MSG";
 	
-	public Map<String, Object> getCategories(Map<String, Object> request) throws Exception {
+	public ResponseModel getCategoriesService(Map<String, Object> request) throws Exception {
 
 				Map<String, Object> response = new HashMap<>();
 				List<Categories> categoriesList = new ArrayList<>();
@@ -43,7 +44,7 @@ public class ParamsServices {
 				if(categories.isEmpty()) {
 					response.put("message", FAIL_MSG);
 				}
-				return response;
+				return null;
 			
 				
 	}
