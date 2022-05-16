@@ -1,38 +1,32 @@
 package com.wposs.alfa.modules.params.repository;
 
-import java.math.BigDecimal;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.CallableStatementCreator;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.stereotype.Component;
 
 import com.wposs.alfa.modules.params.model.Business;
 import com.wposs.alfa.modules.params.model.Categories;
+import com.wposs.alfa.modules.params.model.GetLocationInput;
+import com.wposs.alfa.modules.params.model.ParametersInput;
+import com.wposs.alfa_framework.spring.RepositoryDAO;
 
 @Component
-public class ParamsRepository {
+public class ParamsRepository extends RepositoryDAO{
 
 
-	
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
     
        
 
-	public List<Categories> getCategories( Map<String, Object> request) throws Exception  {
+	public List<Categories> getCategoriesRepository( ParametersInput paramsInput) throws Exception  {
 
 		List<Categories> categories = new ArrayList<>();
 		String sql = "SELECT  "
@@ -44,7 +38,7 @@ public class ParamsRepository {
 
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql,
 				1,
-				request.get("user").toString());
+				paramsInput.getUser());
 
 		if(rows != null) {
 			for (Map<String, Object> row : rows) {
@@ -60,7 +54,7 @@ public class ParamsRepository {
 	}
 		
 
-	public List<Business> getBusiness( Map<String, Object> request) throws Exception  {
+	public List<Business> getBusinessRepository( ) throws Exception  {
 		
 		List<Business> business = new ArrayList<>();
 		String sql = "SELECT  "
@@ -85,6 +79,49 @@ public class ParamsRepository {
 		return business;
 	}
 	
+	public  Map<String, Object> getValidTokenAccess( ParametersInput paramsInput) throws Exception  {
+
+	    List<SqlParameter> paramList = new ArrayList<SqlParameter>();
+	    paramList.add(new SqlParameter(Types.VARCHAR));
+	    paramList.add(new SqlParameter(Types.VARCHAR));
+	    paramList.add(new SqlParameter(Types.VARCHAR));
+	    paramList.add(new SqlOutParameter("message", Types.VARCHAR));
+	    
+	    return jdbcTemplate.call(new CallableStatementCreator() {
+	      @Override
+	      public CallableStatement createCallableStatement(Connection con) throws SQLException {
+	        CallableStatement cs = con.prepareCall("{call DANKO.PKG_GENERALES.PROCD_VALID_TOKEN_ACCESS(?, ?, ?, ?,)}");
+	        cs.setString(1, paramsInput.getToken_access());
+	        cs.setString(2, paramsInput.getUser());
+	        cs.setString(3, paramsInput.getUser_app());
+	        cs.registerOutParameter(4, Types.VARCHAR);
+	        return cs;
+	      }
+	    }, paramList);
+	     
+	}
+	
+	public  Map<String, Object> getLocaltionDefaultRepository( GetLocationInput getLocaltionInput) throws Exception  {
+
+	    List<SqlParameter> paramList = new ArrayList<SqlParameter>();
+	    paramList.add(new SqlParameter(Types.VARCHAR));
+	    paramList.add(new SqlParameter(Types.VARCHAR));
+	    paramList.add(new SqlParameter(Types.VARCHAR));
+	    paramList.add(new SqlOutParameter("message", Types.VARCHAR));
+	    
+	    return jdbcTemplate.call(new CallableStatementCreator() {
+	      @Override
+	      public CallableStatement createCallableStatement(Connection con) throws SQLException {
+	        CallableStatement cs = con.prepareCall("{call DANKO.PKG_GENERALES.PROCD_VALID_TOKEN_ACCESS(?, ?, ?, ?,)}");
+	       /* cs.setString(1, paramsInput.getToken_access());
+	        cs.setString(2, paramsInput.getUser());
+	        cs.setString(3, paramsInput.getUser_app());*/
+	        cs.registerOutParameter(4, Types.VARCHAR);
+	        return cs;
+	      }
+	    }, paramList);
+	     
+	}
 
 
 }
