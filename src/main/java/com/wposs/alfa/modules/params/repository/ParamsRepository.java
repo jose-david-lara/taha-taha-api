@@ -79,7 +79,7 @@ public class ParamsRepository extends RepositoryDAO{
 		return business;
 	}
 	
-	public  Map<String, Object> getValidTokenAccess( ParametersInput paramsInput) throws Exception  {
+	public  Map<String, Object> getValidTokenAccess( String tokenAccess, String user, String userApp) throws Exception  {
 
 	    List<SqlParameter> paramList = new ArrayList<SqlParameter>();
 	    paramList.add(new SqlParameter(Types.VARCHAR));
@@ -90,10 +90,10 @@ public class ParamsRepository extends RepositoryDAO{
 	    return jdbcTemplate.call(new CallableStatementCreator() {
 	      @Override
 	      public CallableStatement createCallableStatement(Connection con) throws SQLException {
-	        CallableStatement cs = con.prepareCall("{call DANKO.PKG_GENERALES.PROCD_VALID_TOKEN_ACCESS(?, ?, ?, ?,)}");
-	        cs.setString(1, paramsInput.getToken_access());
-	        cs.setString(2, paramsInput.getUser());
-	        cs.setString(3, paramsInput.getUser_app());
+	        CallableStatement cs = con.prepareCall("{call DANKO.PKG_GENERALES.PROCD_VALID_TOKEN_ACCESS(?, ?, ?, ?)}");
+	        cs.setString(1, tokenAccess);
+	        cs.setString(2, user);
+	        cs.setString(3, userApp);
 	        cs.registerOutParameter(4, Types.VARCHAR);
 	        return cs;
 	      }
@@ -112,7 +112,7 @@ public class ParamsRepository extends RepositoryDAO{
 	    return jdbcTemplate.call(new CallableStatementCreator() {
 	      @Override
 	      public CallableStatement createCallableStatement(Connection con) throws SQLException {
-	        CallableStatement cs = con.prepareCall("{call DANKO.PKG_GENERALES.PROCD_VALID_TOKEN_ACCESS(?, ?, ?, ?,)}");
+	        CallableStatement cs = con.prepareCall("{call DANKO.PKG_GENERALES.PROCD_VALID_TOKEN_ACCESS(?, ?, ?, ?)}");
 	       /* cs.setString(1, paramsInput.getToken_access());
 	        cs.setString(2, paramsInput.getUser());
 	        cs.setString(3, paramsInput.getUser_app());*/

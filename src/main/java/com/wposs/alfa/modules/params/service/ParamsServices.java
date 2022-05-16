@@ -12,16 +12,11 @@ import com.wposs.alfa.modules.params.model.Categories;
 import com.wposs.alfa.modules.params.model.GetLocationInput;
 import com.wposs.alfa.modules.params.model.ParametersInput;
 import com.wposs.alfa.modules.params.repository.ParamsRepository;
+import com.wposs.alfa_framework.spring.CodeResponseRequest;
 import com.wposs.alfa_framework.spring.ResponseModel;
 
 @Component
 public class ParamsServices extends ParamsRepository{
-
-	private static String SUCCESS_MSG = "EXITO";
-	private static String ERROR_BK_MESSAGE = "ERROR BKND";
-	private static String COD_MSG_SUCCESS = "0";
-	private static String COD_ERROR_BK_MESSAGE = "900";
-	private static String COD_ERROR_GENERIC_MESSAGE = "510";
 
 	public ResponseModel getCategoriesService(ParametersInput paramsInput) throws Exception {
 
@@ -32,20 +27,20 @@ public class ParamsServices extends ParamsRepository{
 
 
 		try {
-			respValidToken = getValidTokenAccess(paramsInput).get("message").toString();
+			respValidToken = getValidTokenAccess(paramsInput.getToken_access(), paramsInput.getUser(),paramsInput.getUser_app()).get("message").toString();
 
 			if("OK".equals(respValidToken)) {
-				
+
 				List<Categories> categories = getCategoriesRepository(paramsInput);
 				List<Business> business = getBusinessRepository();
 
 				if(categories == null || categories.isEmpty()) {
-					rspModel.setCode(COD_ERROR_GENERIC_MESSAGE);
+					rspModel.setCode(CodeResponseRequest.COD_ERROR_GENERIC_MESSAGE);
 					rspModel.setMessage("No existen categorias");
 					rspModel.setError(true);
 					return rspModel;
 				}else if(business == null || business.isEmpty()) {
-					rspModel.setCode(COD_ERROR_GENERIC_MESSAGE);
+					rspModel.setCode(CodeResponseRequest.COD_ERROR_GENERIC_MESSAGE);
 					rspModel.setMessage("No existen empresas");
 					rspModel.setError(true);
 					return rspModel;				
@@ -65,8 +60,8 @@ public class ParamsServices extends ParamsRepository{
 
 				response.put("parameters", categoriesList);
 
-				rspModel.setCode(COD_MSG_SUCCESS);
-				rspModel.setMessage(SUCCESS_MSG);
+				rspModel.setCode(CodeResponseRequest.COD_MSG_SUCCESS);
+				rspModel.setMessage(CodeResponseRequest.SUCCESS_MSG);
 				rspModel.setError(false);
 				rspModel.setData(response);
 
@@ -77,8 +72,8 @@ public class ParamsServices extends ParamsRepository{
 			}
 
 		}catch (Exception e) {
-			rspModel.setCode(COD_ERROR_BK_MESSAGE);
-			rspModel.setMessage(ERROR_BK_MESSAGE);
+			rspModel.setCode(CodeResponseRequest.COD_ERROR_EXCEPTION_BKND);
+			rspModel.setMessage(CodeResponseRequest.ERROR_BACKEND);
 			rspModel.setError(true);
 		}
 		return rspModel;
@@ -90,16 +85,32 @@ public class ParamsServices extends ParamsRepository{
 		Map<String, Object> response = new HashMap<>();
 		List<Categories> countryList = new ArrayList<>();
 		String respValidToken = "";
-		
 
-		 getLocaltionDefaultRepository(getLocaltionInput);
-		
-		System.out.println(":::PASO 2::::");
 
-		List<Business> business = getBusinessRepository();
-		
-		
-		return null;
+		try {
+			System.out.println(":::PASO 1::::");
+			respValidToken = getValidTokenAccess(getLocaltionInput.getToken_access(), getLocaltionInput.getUser(),getLocaltionInput.getUser_app()).get("message").toString();
+			System.out.println(":::PASO 2::::");
+			if("OK".equals(respValidToken)) {
+				System.out.println(":::LOCALTIONS::"+getLocaltionDefaultRepository(getLocaltionInput)); 
+
+				System.out.println(":::PASO 2.1::::");
+
+				//List<Business> business = getBusinessRepository();
+			}else {
+				rspModel.setCode("430");
+				rspModel.setMessage(respValidToken);
+				rspModel.setError(true);
+			}
+		}catch (Exception e) {
+			System.out.println(":::ERROR BKND:::"+e.getMessage());
+			rspModel.setCode(CodeResponseRequest.COD_ERROR_EXCEPTION_BKND);
+			rspModel.setMessage(CodeResponseRequest.ERROR_BACKEND);
+			rspModel.setError(true);
+		}
+
+
+		return rspModel;
 
 	}	
 

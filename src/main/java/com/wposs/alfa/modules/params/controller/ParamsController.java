@@ -38,7 +38,7 @@ public class ParamsController extends ParamsServices {
 	}
 	
 	@PostMapping("/getLocationsDefault")
-	public ResponseEntity<ResponseModel> getLocationsDefault(@RequestBody GetLocationInput getLocaltionInput, BindingResult bindigResult ) throws Exception {
+	public ResponseEntity<ResponseModel> getLocationsDefault(@RequestBody @Valid  GetLocationInput getLocaltionInput, BindingResult bindigResult ) throws Exception {
 	    if(bindigResult.hasErrors()){
 	    	validBody = new ValidateBody();
 	    	return new ResponseEntity<ResponseModel>(validBody.validBodyRequest(bindigResult),HttpStatus.OK);
