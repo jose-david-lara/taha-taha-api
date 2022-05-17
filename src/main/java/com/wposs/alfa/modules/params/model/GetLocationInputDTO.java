@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 
 import org.springframework.lang.NonNull;
 
-public class GetLocationInput implements Serializable{
+public class GetLocationInputDTO implements Serializable{
 
 	/**
 	 * 

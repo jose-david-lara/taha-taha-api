@@ -7,10 +7,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.wposs.alfa.modules.params.model.Business;
-import com.wposs.alfa.modules.params.model.Categories;
-import com.wposs.alfa.modules.params.model.GetLocationInput;
-import com.wposs.alfa.modules.params.model.ParametersInput;
+import com.wposs.alfa.modules.params.model.BusinessDTO;
+import com.wposs.alfa.modules.params.model.CategorieDTO;
+import com.wposs.alfa.modules.params.model.CityDTO;
+import com.wposs.alfa.modules.params.model.CountryDTO;
+import com.wposs.alfa.modules.params.model.GetLocationInputDTO;
+import com.wposs.alfa.modules.params.model.ParametersInputDTO;
 import com.wposs.alfa.modules.params.repository.ParamsRepository;
 import com.wposs.alfa_framework.spring.CodeResponseRequest;
 import com.wposs.alfa_framework.spring.ResponseModel;
@@ -18,11 +20,11 @@ import com.wposs.alfa_framework.spring.ResponseModel;
 @Component
 public class ParamsServices extends ParamsRepository{
 
-	public ResponseModel getCategoriesService(ParametersInput paramsInput) throws Exception {
+	public ResponseModel getCategoriesService(ParametersInputDTO paramsInput) throws Exception {
 
 		ResponseModel rspModel = new ResponseModel();
 		Map<String, Object> response = new HashMap<>();
-		List<Categories> categoriesList = new ArrayList<>();
+		List<CategorieDTO> categoriesList = new ArrayList<>();
 		String respValidToken = "";
 
 
@@ -31,8 +33,8 @@ public class ParamsServices extends ParamsRepository{
 
 			if("OK".equals(respValidToken)) {
 
-				List<Categories> categories = getCategoriesRepository(paramsInput);
-				List<Business> business = getBusinessRepository();
+				List<CategorieDTO> categories = getCategoriesRepository(paramsInput);
+				List<BusinessDTO> business = getBusinessRepository();
 
 				if(categories == null || categories.isEmpty()) {
 					rspModel.setCode(CodeResponseRequest.COD_ERROR_GENERIC_MESSAGE);
@@ -46,10 +48,10 @@ public class ParamsServices extends ParamsRepository{
 					return rspModel;				
 				}
 
-				for(Categories categorie : categories) {
-					categorie.setBusiness(new ArrayList<Business>());
-					List<Business> businessLocal = new ArrayList<>();
-					for(Business bussn : business) {
+				for(CategorieDTO categorie : categories) {
+					categorie.setBusiness(new ArrayList<BusinessDTO>());
+					List<BusinessDTO> businessLocal = new ArrayList<>();
+					for(BusinessDTO bussn : business) {
 						if(bussn.getIdCategorie().equals(categorie.getIdCategorie())) {
 							businessLocal.add(bussn); 							
 						}
@@ -80,10 +82,9 @@ public class ParamsServices extends ParamsRepository{
 
 	}
 
-	public ResponseModel getLocationsDefaultService(GetLocationInput getLocaltionInput) throws Exception {
+	public ResponseModel getLocationsDefaultService(GetLocationInputDTO getLocaltionInput) throws Exception {
 		ResponseModel rspModel = new ResponseModel();
-		Map<String, Object> response = new HashMap<>();
-		List<Categories> countryList = new ArrayList<>();
+		List<CountryDTO> countries = new ArrayList<>();
 		String respValidToken = "";
 
 
@@ -92,9 +93,48 @@ public class ParamsServices extends ParamsRepository{
 			respValidToken = getValidTokenAccess(getLocaltionInput.getToken_access(), getLocaltionInput.getUser(),getLocaltionInput.getUser_app()).get("message").toString();
 			System.out.println(":::PASO 2::::");
 			if("OK".equals(respValidToken)) {
-				System.out.println(":::LOCALTIONS::"+getLocaltionDefaultRepository(getLocaltionInput)); 
+				
+				
+				List<CountryDTO> countryList =  getLocaltionCountryRepository(getLocaltionInput);
+				List<CityDTO> cityList = getLocaltionCityRepository(getLocaltionInput);
+
+				
+				System.out.println(":::LOCALTIONS COUNTRY::"+countryList.toString());
+				System.out.println(":::LOCALTIONS CITY::"+cityList.toString());
 
 				System.out.println(":::PASO 2.1::::");
+				
+				if(countryList == null || countryList.isEmpty()) {
+					rspModel.setCode(CodeResponseRequest.COD_ERROR_GENERIC_MESSAGE);
+					rspModel.setMessage("No existen paises");
+					rspModel.setError(true);
+					return rspModel;
+				}else if(cityList == null || cityList.isEmpty()) {
+					rspModel.setCode(CodeResponseRequest.COD_ERROR_GENERIC_MESSAGE);
+					rspModel.setMessage("No existen ciudades");
+					rspModel.setError(true);
+					return rspModel;				
+				}
+				
+				
+				for(CountryDTO country : countryList) {
+					country.setCities(new ArrayList<CityDTO>());
+					List<CityDTO> citiesLocal = new ArrayList<>();
+					for(CityDTO city : cityList) {
+						if(city.getIdCountry().equals(country.getIdCountry())) {
+							citiesLocal.add(city); 							
+						}
+					}
+					country.setCities(citiesLocal);
+					countries.add(country);
+				}
+				
+				//System.out.println(":::EJEMPLOS:::"+new HashMap<>().put("locations",countries).toString());
+				
+				rspModel.setCode(CodeResponseRequest.COD_MSG_SUCCESS);
+				rspModel.setMessage(CodeResponseRequest.SUCCESS_MSG);
+				rspModel.setError(false);
+				rspModel.setData(countries);
 
 				//List<Business> business = getBusinessRepository();
 			}else {

@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 
 
-public class Categories implements Serializable{
+public class CategorieDTO implements Serializable{
 
 	private String idCategorie;
 	private String name;
 	private String description;
 	private String img;
-	private List<Business> business;
+	private List<BusinessDTO> business;
 	
 	/**
 	 * 
@@ -49,11 +49,11 @@ public class Categories implements Serializable{
 		this.img = img;
 	}
 
-	public List<Business> getBusiness() {
+	public List<BusinessDTO> getBusiness() {
 		return business;
 	}
 
-	public void setBusiness(List<Business> business) {
+	public void setBusiness(List<BusinessDTO> business) {
 		this.business = business;
 	}
 

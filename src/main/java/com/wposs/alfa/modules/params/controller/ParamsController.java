@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wposs.alfa.modules.params.model.GetLocationInput;
-import com.wposs.alfa.modules.params.model.ParametersInput;
+import com.wposs.alfa.modules.params.model.GetLocationInputDTO;
+import com.wposs.alfa.modules.params.model.ParametersInputDTO;
 import com.wposs.alfa.modules.params.service.ParamsServices;
 import com.wposs.alfa_framework.spring.ResponseModel;
 import com.wposs.alfa_framework.spring.ValidateBody;
@@ -26,7 +26,7 @@ public class ParamsController extends ParamsServices {
 	protected ValidateBody validBody;
 
 	@PostMapping("/getCategories")
-	public ResponseEntity<ResponseModel> getParameters(@RequestBody @Valid  ParametersInput paramInput, BindingResult bindigResult ) throws Exception {
+	public ResponseEntity<ResponseModel> getParameters(@RequestBody @Valid  ParametersInputDTO paramInput, BindingResult bindigResult ) throws Exception {
 	    if(bindigResult.hasErrors()){
 	    	validBody = new ValidateBody();
 	    	return new ResponseEntity<ResponseModel>(validBody.validBodyRequest(bindigResult),HttpStatus.OK);
@@ -38,7 +38,7 @@ public class ParamsController extends ParamsServices {
 	}
 	
 	@PostMapping("/getLocationsDefault")
-	public ResponseEntity<ResponseModel> getLocationsDefault(@RequestBody @Valid  GetLocationInput getLocaltionInput, BindingResult bindigResult ) throws Exception {
+	public ResponseEntity<ResponseModel> getLocationsDefault(@RequestBody @Valid  GetLocationInputDTO getLocaltionInput, BindingResult bindigResult ) throws Exception {
 	    if(bindigResult.hasErrors()){
 	    	validBody = new ValidateBody();
 	    	return new ResponseEntity<ResponseModel>(validBody.validBodyRequest(bindigResult),HttpStatus.OK);

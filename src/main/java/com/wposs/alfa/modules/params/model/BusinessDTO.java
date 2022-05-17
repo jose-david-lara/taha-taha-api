@@ -2,7 +2,7 @@ package com.wposs.alfa.modules.params.model;
 
 import java.io.Serializable;
 
-public class Business implements Serializable{
+public class BusinessDTO implements Serializable{
 	
 	private String idCategorie;
 	private String idBusiness;

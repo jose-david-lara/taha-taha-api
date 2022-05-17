@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 
 import org.springframework.lang.NonNull;
 
-public class ParametersInput implements Serializable{
+public class ParametersInputDTO implements Serializable{
 	
 	
 	
