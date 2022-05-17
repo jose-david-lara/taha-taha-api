@@ -83,27 +83,19 @@ public class ParamsServices extends ParamsRepository{
 	}
 
 	public ResponseModel getLocationsDefaultService(GetLocationInputDTO getLocaltionInput) throws Exception {
+		
 		ResponseModel rspModel = new ResponseModel();
 		List<CountryDTO> countries = new ArrayList<>();
 		String respValidToken = "";
 
-
 		try {
-			System.out.println(":::PASO 1::::");
 			respValidToken = getValidTokenAccess(getLocaltionInput.getToken_access(), getLocaltionInput.getUser(),getLocaltionInput.getUser_app()).get("message").toString();
-			System.out.println(":::PASO 2::::");
+			
 			if("OK".equals(respValidToken)) {
-				
 				
 				List<CountryDTO> countryList =  getLocaltionCountryRepository(getLocaltionInput);
 				List<CityDTO> cityList = getLocaltionCityRepository(getLocaltionInput);
 
-				
-				System.out.println(":::LOCALTIONS COUNTRY::"+countryList.toString());
-				System.out.println(":::LOCALTIONS CITY::"+cityList.toString());
-
-				System.out.println(":::PASO 2.1::::");
-				
 				if(countryList == null || countryList.isEmpty()) {
 					rspModel.setCode(CodeResponseRequest.COD_ERROR_GENERIC_MESSAGE);
 					rspModel.setMessage("No existen paises");
@@ -129,14 +121,11 @@ public class ParamsServices extends ParamsRepository{
 					countries.add(country);
 				}
 				
-				//System.out.println(":::EJEMPLOS:::"+new HashMap<>().put("locations",countries).toString());
-				
 				rspModel.setCode(CodeResponseRequest.COD_MSG_SUCCESS);
 				rspModel.setMessage(CodeResponseRequest.SUCCESS_MSG);
 				rspModel.setError(false);
 				rspModel.setData(countries);
 
-				//List<Business> business = getBusinessRepository();
 			}else {
 				rspModel.setCode("430");
 				rspModel.setMessage(respValidToken);
@@ -148,7 +137,6 @@ public class ParamsServices extends ParamsRepository{
 			rspModel.setMessage(CodeResponseRequest.ERROR_BACKEND);
 			rspModel.setError(true);
 		}
-
 
 		return rspModel;
 
