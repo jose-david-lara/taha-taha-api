@@ -1,4 +1,4 @@
-package com.wposs.alfa.modules.user.model;
+package com.wposs.alfa.modules.user.dto;
 
 import java.io.Serializable;
 

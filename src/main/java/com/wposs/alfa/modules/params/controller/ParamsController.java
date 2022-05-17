@@ -2,6 +2,8 @@ package com.wposs.alfa.modules.params.controller;
 
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -10,28 +12,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wposs.alfa.modules.params.model.GetLocationInputDTO;
+import com.wposs.alfa.modules.params.model.ParametersInputDTO;
 import com.wposs.alfa.modules.params.service.ParamsServices;
-import com.wposs.core.controller.BaseSpringController;
-import com.wposs.core.controller.ProcessController;
-import com.wposs.core.model.BaseResponse;
-import com.wposs.core.spring.Input;
-import com.wposs.core.spring.Output;
+import com.wposs.alfa_framework.spring.ResponseModel;
+import com.wposs.alfa_framework.spring.ValidateBody;
+
 
 @RestController
 @RequestMapping(path = "/params")
-public class ParamsController extends BaseSpringController<ParamsServices>{
+public class ParamsController extends ParamsServices {
+	
+	protected ValidateBody validBody;
 
-	@PostMapping("/getParameters")
-	@Input(name="user_app",			required="true", 			type="String",				values="")
-	@Input(name="user",			    required="true", 			type="String",				values="")
-	@Output(name="parameters",  	required="true", 			type="String",				values="")
-	@Output(name="message",     	required="true", 			type="String",				values="")
-	public ResponseEntity<BaseResponse<Map<String, Object>>> getParameters(@RequestBody Map<String, Object> request, BindingResult bindigResult ) throws Exception {
-		return processController( new ProcessController<BaseResponse<Map<String, Object>>>( request, bindigResult ) {
-			public ResponseEntity<BaseResponse<Map<String, Object>>> onProcess( BaseResponse<Map<String, Object>> response ) throws Exception {
-				response.setModel( getService().getParameters(request) );
-				return new ResponseEntity<>( response, HttpStatus.OK );
-			}
-		} ) ;
+	@PostMapping("/getCategories")
+	public ResponseEntity<ResponseModel> getParameters(@RequestBody @Valid  ParametersInputDTO paramInput, BindingResult bindigResult ) throws Exception {
+	    if(bindigResult.hasErrors()){
+	    	validBody = new ValidateBody();
+	    	return new ResponseEntity<ResponseModel>(validBody.validBodyRequest(bindigResult),HttpStatus.OK);
+	    }
+	    //return null;
+	    return new ResponseEntity<ResponseModel>(getCategoriesService(paramInput), HttpStatus.OK);
+	   /* return new ResponseEntity<ResponseModel>(getCategoriesService(authUser), HttpStatus.OK);*/
+
 	}
+	
+	@PostMapping("/getLocationsDefault")
+	public ResponseEntity<ResponseModel> getLocationsDefault(@RequestBody @Valid  GetLocationInputDTO getLocaltionInput, BindingResult bindigResult ) throws Exception {
+	    if(bindigResult.hasErrors()){
+	    	validBody = new ValidateBody();
+	    	return new ResponseEntity<ResponseModel>(validBody.validBodyRequest(bindigResult),HttpStatus.OK);
+	    }
+	    return new ResponseEntity<ResponseModel>(getLocationsDefaultService(getLocaltionInput), HttpStatus.OK);
+
+	}	
+	
+	
 }
