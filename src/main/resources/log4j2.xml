@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
     <Properties>
-        <Property name="basePath">/libre/devops/logs/alfa-security</Property>
-        <Property name="appname">alfa-danko-api</Property>
+        <Property name="basePath">/libre/devops/logs/taha-taha</Property>
+        <Property name="appname">taha-taha-api</Property>
         <Property name="pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5p | %-5t | %msg%n</Property>
     </Properties>
     <Appenders>
